@@ -3,6 +3,7 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import java.time.LocalTime;
@@ -17,19 +18,21 @@ public class ConnectionsPage extends PageObject{
     private WebElement firstDirectConnection;
 
     private WebElement departureStop =
-            firstDirectConnection.findElement(By.xpath("(//strong[@class='name'])[1]"));
+            firstDirectConnection.findElement(By.xpath("(.//strong[@class='name'])[1]"));
     private WebElement arrivalStop =
-            firstDirectConnection.findElement(By.xpath("(//strong[@class='name'])[2]"));
+            firstDirectConnection.findElement(By.xpath("(.//strong[@class='name'])[2]"));
     private WebElement arrivalTime =
-            firstDirectConnection.findElement(By.xpath("(//p[@class='reset time'])[2]"));
-    private WebElement dateTime =
-            firstDirectConnection.findElement(By.xpath("//h2[@class='reset date']"));
+            firstDirectConnection.findElement(By.xpath("(.//p[@class='reset time'])[2]"));
+    private WebElement time =
+            firstDirectConnection.findElement(By.xpath(".//h2[@class='reset date']"));
+    private WebElement date =
+            firstDirectConnection.findElement(By.xpath(".//h2[@class='reset date']/span"));
     private WebElement travelTime =
-            firstDirectConnection.findElement(By.xpath("(//p[@class='reset total']/strong)[1]"));
+            firstDirectConnection.findElement(By.xpath("(.//p[@class='reset total']/strong)[1]"));
     private WebElement priceValue =
-            firstDirectConnection.findElement(By.xpath("//span[@class='price-value']"));
+            firstDirectConnection.findElement(By.xpath(".//span[@class='price-value']"));
     private WebElement expandDetails =
-            firstDirectConnection.findElement(By.xpath("//li[@class='expand']/a"));
+            firstDirectConnection.findElement(By.xpath(".//li[@class='expand']/a"));
     private WebElement collapse;
 
     private List<WebElement> intermediateStops;
@@ -43,10 +46,14 @@ public class ConnectionsPage extends PageObject{
     }
 
     public String getDate() {
-        return dateTime.getText().substring(4,9);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(time);
+        actions.perform();
+
+        return date.getText().split(" ")[0];
     }
     public LocalTime getTime() {
-        return LocalTime.parse(dateTime.getText().substring(0,4), timeFormatter);
+        return LocalTime.parse(time.getText().split(getDate())[0], timeFormatter);
     }
 
     public int getPrice() {
@@ -77,7 +84,7 @@ public class ConnectionsPage extends PageObject{
     public int countStops() {
         int stops = 2; //first and last stop
         expandDetails.click();
-        intermediateStops = firstDirectConnection.findElements(By.xpath("//li[contains(@class, 'itemConnDetail intermediate')]"));
+        intermediateStops = firstDirectConnection.findElements(By.xpath(".//li[contains(@class, 'itemConnDetail intermediate')]"));
         stops += intermediateStops.size();
         collapse = firstDirectConnection.findElement(By.xpath("//a[@class='ext-expand ico-up']"));
         collapse.click();

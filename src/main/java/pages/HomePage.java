@@ -30,6 +30,8 @@ public class HomePage extends PageObject{
     @FindBy(linkText = "obec, okres Brno-město, vlaky, autobusy, MHD")
     private WebElement whispererBrno;
 
+    @FindBy(id = "didomi-notice-agree-button")
+    private WebElement cookieConsentButton;
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -55,6 +57,10 @@ public class HomePage extends PageObject{
 
     public void checkDirectConnectionsBox() {
         directConnectionsBox.click();
+    }
+
+    public void consentWithCookies(){
+        cookieConsentButton.click();
     }
 
     public ConnectionsPage submit() {

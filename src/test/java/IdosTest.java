@@ -34,6 +34,8 @@ public class IdosTest {
         driver.get("https://idos.idnes.cz/");
         assertEquals(homePage.title(), driver.getTitle(), "Title of page should match");
 
+        homePage.consentWithCookies();
+
         homePage.typeAddressFrom("Praha");
         homePage.typeAddressTo("Brno");
         homePage.setNextDay();
