@@ -26,7 +26,7 @@ public class IdosTest {
     }
 
     @Test
-    public void testIdos() throws InterruptedException {
+    public void testIdos() {
         HomePage homePage = new HomePage(driver);
         LocalDateTime date = LocalDateTime.now().plusDays(1);
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.M.");
