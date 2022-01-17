@@ -1,9 +1,9 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import java.time.LocalTime;
@@ -39,6 +39,8 @@ public class ConnectionsPage extends PageObject{
 
     public ConnectionsPage(WebDriver driver) {
         super(driver);
+        JavascriptExecutor js = (JavascriptExecutor)driver;
+        js.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'})", firstDirectConnection);
     }
 
     public String getExpectedTitle() {
@@ -46,10 +48,6 @@ public class ConnectionsPage extends PageObject{
     }
 
     public String getDate() {
-        Actions actions = new Actions(driver);
-        actions.moveToElement(time);
-        actions.perform();
-
         return date.getText().split(" ")[0];
     }
     public LocalTime getTime() {
